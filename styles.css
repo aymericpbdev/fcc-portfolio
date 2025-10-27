@@ -65,6 +65,10 @@ body {
     outline-offset: 3px;
 }
 
+<<<<<<< HEAD
+=======
+/* HEADER & NAVIGATION */
+>>>>>>> bea5cfc877e6d9a96c3e5f28c921eea8750bbddd
 .site-header {
     position: fixed;
     top: 0;
@@ -200,6 +204,10 @@ body {
     color: var(--color-text-secondary);
 }
 
+<<<<<<< HEAD
+=======
+/* PROJECTS SECTION */
+>>>>>>> bea5cfc877e6d9a96c3e5f28c921eea8750bbddd
 .projects-section {
     min-height: 100vh;
     padding: var(--spacing-xxl) var(--spacing-lg);
@@ -341,6 +349,7 @@ body {
     color: var(--color-text-tertiary);
 }
 
+<<<<<<< HEAD
 .project-demo-button {
     display: inline-block;
     width: fit-content;
@@ -368,6 +377,8 @@ body {
     outline-offset: 3px;
 }
 
+=======
+>>>>>>> bea5cfc877e6d9a96c3e5f28c921eea8750bbddd
 .site-footer {
     padding: var(--spacing-lg);
     background-color: var(--color-background-deep);
@@ -460,4 +471,5 @@ body {
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
     }
+
 }
