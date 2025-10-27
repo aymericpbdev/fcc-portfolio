@@ -1,4 +1,5 @@
-# fcc-portfolio
+# 5th & last projet for FreeCodeCamp Certification: Responsive Web Design Certification
+## fcc-portfolio
 
 1. Your portfolio should have a welcome section with an id of welcome-section
 2. The welcome section should have an h1 element that contains text
