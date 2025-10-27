@@ -1,4 +1,4 @@
-# 5th & last project for FreeCodeCamp Certification: Responsive Web Design Certification
+# 5th & last project for FreeCodeCamp - Certification: Responsive Web Design
 ## fcc-portfolio
 ### DEMO: https://aymericpbdev.github.io/fcc-portfolio/
 
