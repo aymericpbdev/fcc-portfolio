@@ -1,4 +1,4 @@
-# 5th & last projet for FreeCodeCamp Certification: Responsive Web Design Certification
+# 5th & last project for FreeCodeCamp Certification: Responsive Web Design Certification
 ## fcc-portfolio
 
 1. Your portfolio should have a welcome section with an id of welcome-section
