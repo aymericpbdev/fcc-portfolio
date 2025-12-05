@@ -83,8 +83,6 @@ body {
     outline-offset: 3px;
 }
 
-/* HEADER & NAVIGATION */
-
 .site-header {
     position: fixed;
     top: 0;
@@ -154,13 +152,9 @@ body {
     width: 100%;
 }
 
-/* MAIN CONTENT */
-
 #main-content {
     padding-top: 0;
 }
-
-/* WELCOME SECTION */
 
 .welcome-section {
     display: flex;
@@ -223,8 +217,6 @@ body {
     font-weight: 400;
     color: var(--color-text-secondary);
 }
-
-/* ABOUT SECTION */
 
 .about-section {
     padding: var(--spacing-xxl) var(--spacing-lg);
@@ -338,8 +330,6 @@ body {
     font-size: 0.9rem;
     color: var(--color-text-tertiary);
 }
-
-/* PROJECTS SECTION */
 
 .projects-section {
     min-height: 100vh;
@@ -536,8 +526,6 @@ body {
     color: var(--color-primary);
 }
 
-/* FOOTER */
-
 .site-footer {
     padding: var(--spacing-xl) var(--spacing-lg);
     background-color: var(--color-background-deep);
@@ -611,8 +599,6 @@ body {
     font-size: 0.85rem;
     color: var(--color-text-tertiary);
 }
-
-/* MEDIA QUERIES */
 
 @media screen and (max-width: 768px) {
     .navigation-container {
@@ -727,4 +713,5 @@ body {
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
     }
+
 }
