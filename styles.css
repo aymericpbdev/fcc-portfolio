@@ -286,6 +286,17 @@ body {
     opacity: 0;
 }
 
+@keyframes victory-pulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 25px rgba(0, 255, 212, 0.8), 0 0 50px rgba(0, 255, 212, 0.4);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 35px rgba(0, 255, 212, 1), 0 0 70px rgba(0, 255, 212, 0.6);
+    }
+}
+
 .welcome-content {
     position: relative;
     max-width: var(--max-width-text);
