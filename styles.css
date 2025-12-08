@@ -176,6 +176,7 @@ body {
     text-align: center;
 }
 
+/* Modification du timer avec JS
 .welcome-content::before {
     content: '00:00:00';
     position: absolute;
@@ -201,7 +202,8 @@ body {
         opacity: 0.85;
         box-shadow: 0 0 15px rgba(102, 204, 102, 0.5);
     }
-}
+} 
+*/
 
 .welcome-section h1 {
     margin-bottom: var(--spacing-sm);
