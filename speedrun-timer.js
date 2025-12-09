@@ -203,7 +203,7 @@ class SpeedrunTimer {
   const checkpointName = button.dataset.checkpoint;
   const nextSection = button.dataset.nextSection;
   
-  console.log(`Checkpoint validé manuellement : ${checkpointName}`);
+  // console.log(`Checkpoint validé manuellement : ${checkpointName}`);
   
   // Valider le checkpoint
   this.validateCheckpoint(button, checkpointName, nextSection);
@@ -220,12 +220,12 @@ createCheckpointObserver(button) {
       
       // Le bouton est visible
       if (entry.isIntersecting) {
-        console.log('Bouton visible, démarrage du timer');
+        // console.log('Bouton visible, démarrage du timer');
         
         // Démarrer un timer de 2 secondes (ajustable)
         visibilityTimer = setTimeout(() => {
           canAutoValidate = true;
-          console.log('Bouton visible depuis 2s, validation auto activée');
+          // console.log('Bouton visible depuis 2s, validation auto activée');
         }, 2000);  // 2 secondes de visibilité requises
         
       } 
@@ -234,7 +234,7 @@ createCheckpointObserver(button) {
         // Annuler le timer si le bouton disparaît trop vite
         if (visibilityTimer) {
           clearTimeout(visibilityTimer);
-          console.log('Bouton disparu trop vite, timer annulé');
+          // console.log('Bouton disparu trop vite, timer annulé');
         }
         
         // Valider si validation auto activée et bouton sorti par le haut
@@ -242,7 +242,7 @@ createCheckpointObserver(button) {
           const checkpointName = button.dataset.checkpoint;
           const nextSection = button.dataset.nextSection;
           
-          console.log(`Checkpoint validé automatiquement : ${checkpointName}`);
+          // console.log(`Checkpoint validé automatiquement : ${checkpointName}`);
           
           // Valider le checkpoint
           this.validateCheckpoint(button, checkpointName, nextSection);
