@@ -286,6 +286,14 @@ body {
     opacity: 0;
 }
 
+/* Notification finale plus large */
+.timer-notification-final {
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-size: 1.1rem;
+    min-width: 300px;
+    text-align: center;
+}
+
 @keyframes victory-pulse {
     0%, 100% {
         transform: scale(1);
@@ -297,40 +305,125 @@ body {
     }
 }
 
+.checkpoint-button {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    background-color: rgba(13, 13, 13, 0.8);  /* Fond noir plus opaque pour lisibilité */
+    border: 2px solid #FFD700;
+    border-radius: var(--radius-md);
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: #FFD700;
+    cursor: pointer;
+    z-index: 50;
+    transition: all 0.3s ease;
+    animation: checkpoint-pulse 2s ease-in-out infinite;
+}
+
+.checkpoint-button:hover {
+    background-color: var(--color-primary-light);
+    transform: translateX(-50%) translateY(-3px);
+    box-shadow: 0 6px 20px rgba(102, 204, 102, 0.5);
+}
+
+.checkpoint-button:active {
+    transform: translateX(-50%) translateY(-1px);
+}
+
+.checkpoint-button:focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 3px;
+}
+
+/* Animation d'apparition du bouton */
+.checkpoint-button.appear {
+    animation: checkpoint-appear 0.5s ease-out;
+}
+
+@keyframes checkpoint-appear {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+/* Style pour le bouton validé (désactivé) */
+.checkpoint-button.completed {
+    background-color: var(--color-surface-dark);
+    border-color: var(--color-text-tertiary);
+    color: var(--color-text-tertiary);
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.checkpoint-button.completed:hover {
+    background-color: var(--color-surface-dark);
+    transform: translateX(-50%) translateY(0);
+    box-shadow: none;
+}
+
+/* Pulse orange pour bouton checkpoint */
+@keyframes checkpoint-pulse-orange {
+    0%, 100% {
+        opacity: 1;
+        box-shadow: 0 0 5px rgba(255, 165, 0, 0.3);
+    }
+    50% {
+        opacity: 0.85;
+        box-shadow: 0 0 15px rgba(255, 165, 0, 0.5);
+    }
+}
+
+/* Pulse rouge pour bouton checkpoint */
+@keyframes checkpoint-pulse-red {
+    0%, 100% {
+        opacity: 1;
+        box-shadow: 0 0 5px rgba(255, 68, 68, 0.3);
+    }
+    50% {
+        opacity: 0.85;
+        box-shadow: 0 0 15px rgba(255, 68, 68, 0.5);
+    }
+}
+
+/* Pulse orange pour timer */
+@keyframes timer-pulse-orange {
+    0%, 100% {
+        opacity: 1;
+        box-shadow: 0 0 5px rgba(255, 165, 0, 0.3);
+    }
+    50% {
+        opacity: 0.85;
+        box-shadow: 0 0 15px rgba(255, 165, 0, 0.5);
+    }
+}
+
+/* Pulse rouge pour timer */
+@keyframes timer-pulse-red {
+    0%, 100% {
+        opacity: 1;
+        box-shadow: 0 0 5px rgba(255, 68, 68, 0.3);
+    }
+    50% {
+        opacity: 0.85;
+        box-shadow: 0 0 15px rgba(255, 68, 68, 0.5);
+    }
+}
+
 .welcome-content {
     position: relative;
     max-width: var(--max-width-text);
     text-align: center;
 }
-
-/* Modification du timer avec JS
-.welcome-content::before {
-    content: '00:00:00';
-    position: absolute;
-    top: -40px;
-    right: 20px;
-    padding: var(--spacing-xs) var(--spacing-sm);
-    background-color: rgba(13, 13, 13, 0.6);
-    border: 2px solid var(--color-primary);
-    border-radius: var(--radius-sm);
-    font-family: var(--font-mono);
-    font-size: 0.9rem;
-    letter-spacing: 0.1em;
-    color: var(--color-primary);
-    animation: timer-pulse 2s ease-in-out infinite;
-}
-
-@keyframes timer-pulse {
-    0%, 100% {
-        opacity: 1;
-        box-shadow: 0 0 5px rgba(102, 204, 102, 0.3);
-    }
-    50% {
-        opacity: 0.85;
-        box-shadow: 0 0 15px rgba(102, 204, 102, 0.5);
-    }
-} 
-*/
 
 .welcome-section h1 {
     margin-bottom: var(--spacing-sm);
@@ -348,6 +441,7 @@ body {
 }
 
 .about-section {
+    position: relative;
     padding: var(--spacing-xxl) var(--spacing-lg);
     background-color: var(--color-background);
     background-image: repeating-linear-gradient(90deg, transparent, transparent 50px, rgba(102, 204, 102, 0.02) 50px, rgba(102, 204, 102, 0.02) 51px);
@@ -461,6 +555,7 @@ body {
 }
 
 .projects-section {
+    position: relative;
     min-height: 100vh;
     padding: var(--spacing-xxl) var(--spacing-lg);
     background-color: var(--color-background-deep);

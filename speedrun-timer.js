@@ -1,18 +1,16 @@
 class SpeedrunTimer {
   constructor() {
     // Variables de temps
-    this.startTime = 0;           // Moment où le timer démarre (en millisecondes)
-    this.elapsedTime = 0;         // Temps écoulé total (pour gérer les pauses)
-    this.isRunning = false;       // Est-ce que le timer est actif ?
-    this.intervalId = null;       // ID du setInterval pour pouvoir l'arrêter
-    this.isActive = false;        // Est-ce que le timer a été démarré au moins une fois ?
-    
-    // Segments (5min, 10min, 15min en millisecondes)
-    this.segments = [
-      { time: 5 * 1000, reached: false, name: '1st segment', color: '#FFD700' },   // Jaune/Or
-      { time: 10 * 1000, reached: false, name: '2nd segment', color: '#FFA500' },  // Orange
-      { time: 15 * 1000, reached: false, name: 'Final time', color: '#FF4444' }    // Rouge
-    ];
+    this.startTime = 0; // Moment où le timer démarre (en millisecondes)
+    this.elapsedTime = 0; // Temps écoulé total (pour gérer les pauses)
+    this.isRunning = false; // Est-ce que le timer est actif ?
+    this.intervalId = null; // ID du setInterval pour pouvoir l'arrêter
+    this.isActive = false; // Est-ce que le timer a été démarré au moins une fois ?
+    this.isPausedManually = false; // Est-ce que le timer est en pause manuelle ? (bouton pause ou checkpoint final passé)
+    // Checkpoints
+    this.currentCheckpoint = 0; // Index du checkpoint actuel (0 = welcome, 1 = about, 2 = projects)
+    this.checkpointButtons = document.querySelectorAll('.checkpoint-button');
+    this.observers = []; // Stocker les IntersectionObservers
     
     this.timerContainer = document.getElementById('speedrun-timer');
     this.displayElement = document.querySelector('.timer-display');
@@ -65,6 +63,9 @@ class SpeedrunTimer {
     
     // Change le bouton en mode "Pause"
     this.updateButton('pause');
+
+    // Afficher et observer le 1er bouton checkpoint
+    this.showCheckpointButton(0);
   }
   
   pause() {
@@ -76,6 +77,9 @@ class SpeedrunTimer {
     
     // Change le bouton en mode "Resume"
     this.updateButton('resume');
+
+    // Marquer comme pause manuelle
+    this.isPausedManually = true;
   }
   
   resume() {
@@ -89,6 +93,9 @@ class SpeedrunTimer {
     }, 10);
     
     this.updateButton('pause');
+
+    // Ce n'est plus une pause manuelle
+    this.isPausedManually = false;
   }
   
   // MISE À JOUR DE L'AFFICHAGE
@@ -105,9 +112,6 @@ class SpeedrunTimer {
     // Formater l'affichage (ajouter des zéros si nécessaire)
     const formatted = `${this.pad(minutes, 2)}:${this.pad(seconds, 2)}:${this.pad(centiseconds, 2)}`;
     this.displayElement.textContent = formatted;
-    
-    // Vérifier les segments
-    this.checkSegments(currentTime);
   }
   
   // Fonction helper pour ajouter des zéros devant (ex: 5 -> 05)
@@ -116,39 +120,6 @@ class SpeedrunTimer {
     while (s.length < size) s = '0' + s;
     return s;
   }
-  
-  // GESTION DES SEGMENTS
-  checkSegments(currentTime) {
-    this.segments.forEach((segment, index) => {
-      if (!segment.reached && currentTime >= segment.time) {
-        segment.reached = true;
-        this.onSegmentReached(segment, index);
-      }
-    });
-  }
-  
- onSegmentReached(segment, index) {
-  // Afficher une notification
-  this.showNotification(segment.name);
-  
-  // Changer la couleur pour le prochain segment
-  if (index === 0) {
-    // à 5min => orange (2ème segment)
-    this.displayElement.style.borderColor = '#FFA500';
-    this.displayElement.style.color = '#FFA500';
-  } else if (index === 1) {
-    // à 10min => rouge (3ème segment)
-    this.displayElement.style.borderColor = '#FF4444';
-    this.displayElement.style.color = '#FF4444';
-  } else if (index === 2) {
-    // à 15min => cyan (couleur finale)
-    this.displayElement.style.borderColor = '#00FFD4';  // Cyan brillant
-    this.displayElement.style.color = '#00FFD4';
-    this.displayElement.style.boxShadow = '0 0 25px rgba(0, 255, 212, 0.8), 0 0 50px rgba(0, 255, 212, 0.4)';
-    // Animation de pulsation lente et "calme"
-    this.displayElement.style.animation = 'victory-pulse 2s ease-in-out infinite';
-  }
-}
   
   // NOTIFICATIONS
   showNotification(message) {
@@ -172,7 +143,6 @@ class SpeedrunTimer {
   }
   
   // GESTION DU MODE FIXED
-  
   activateFixedMode() {
     // Ajouter la classe pour passer en mode fixed
     this.timerContainer.classList.add('timer-active');
@@ -180,6 +150,185 @@ class SpeedrunTimer {
     // Réduire la taille du bouton
     this.buttonElement.classList.add('timer-button-small');
   }
+
+  // GESTION DES CHECKPOINTS
+  showCheckpointButton(index, color = '#FFD700') {
+    if (index >= this.checkpointButtons.length) return;
+    
+    const button = this.checkpointButtons[index];
+    
+    // Appliquer la couleur au bouton
+    button.style.borderColor = color;
+    button.style.color = color;
+    this.updateCheckpointAnimation(button, color);
+    
+    // Afficher le bouton avec animation
+    button.style.display = 'block';
+    setTimeout(() => {
+      button.classList.add('appear');
+    }, 50);
+    
+    // Ajouter l'écouteur de clic manuel
+    button.addEventListener('click', () => this.handleCheckpointClick(button));
+    
+    // Créer l'observer immédiatement
+    this.createCheckpointObserver(button);
+  }
+  updateCheckpointAnimation(button, color) {
+    // Changer l'animation CSS du bouton en fonction de la couleur
+    if (color === '#FFD700') {
+      button.style.animation = 'checkpoint-pulse 2s ease-in-out infinite';
+    } else if (color === '#FFA500') {
+      button.style.animation = 'checkpoint-pulse-orange 2s ease-in-out infinite';
+    } else if (color === '#FF4444') {
+      button.style.animation = 'checkpoint-pulse-red 2s ease-in-out infinite';
+    }
+  }
+
+  updateTimerAnimation(color) {
+    // Changer l'animation CSS du timer en fonction de la couleur
+    if (color === '#FFD700') {
+      this.displayElement.style.animation = 'timer-pulse 2s ease-in-out infinite';
+    } else if (color === '#FFA500') {
+      this.displayElement.style.animation = 'timer-pulse-orange 2s ease-in-out infinite';
+    } else if (color === '#FF4444') {
+      this.displayElement.style.animation = 'timer-pulse-red 2s ease-in-out infinite';
+    }
+  }
+
+  handleCheckpointClick(button) {
+  // Empêcher de valider si déjà validé
+  if (button.classList.contains('completed')) return;
+  
+  const checkpointName = button.dataset.checkpoint;
+  const nextSection = button.dataset.nextSection;
+  
+  console.log(`Checkpoint validé manuellement : ${checkpointName}`);
+  
+  // Valider le checkpoint
+  this.validateCheckpoint(button, checkpointName, nextSection);
+}
+
+createCheckpointObserver(button) {
+  let visibilityTimer = null;  // Timer pour tracker le temps de visibilité
+  let canAutoValidate = false;  // Peut-on valider automatiquement ?
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      // Vérifier que le bouton n'est pas complété
+      if (button.classList.contains('completed')) return;
+      
+      // Le bouton est visible
+      if (entry.isIntersecting) {
+        console.log('Bouton visible, démarrage du timer');
+        
+        // Démarrer un timer de 2 secondes (ajustable)
+        visibilityTimer = setTimeout(() => {
+          canAutoValidate = true;
+          console.log('Bouton visible depuis 2s, validation auto activée');
+        }, 2000);  // 2 secondes de visibilité requises
+        
+      } 
+      // Le bouton n'est plus visible
+      else {
+        // Annuler le timer si le bouton disparaît trop vite
+        if (visibilityTimer) {
+          clearTimeout(visibilityTimer);
+          console.log('Bouton disparu trop vite, timer annulé');
+        }
+        
+        // Valider si validation auto activée et bouton sorti par le haut
+        if (canAutoValidate && entry.boundingClientRect.top < 0) {
+          const checkpointName = button.dataset.checkpoint;
+          const nextSection = button.dataset.nextSection;
+          
+          console.log(`Checkpoint validé automatiquement : ${checkpointName}`);
+          
+          // Valider le checkpoint
+          this.validateCheckpoint(button, checkpointName, nextSection);
+        }
+      }
+    });
+  }, {
+    threshold: 0,
+    rootMargin: '0px'
+  });
+  
+  // Observer le bouton
+  observer.observe(button);
+  
+  // Stocker l'observer
+  this.observers.push(observer);
+}
+
+validateCheckpoint(button, checkpointName, nextSection) {
+  // Marquer le bouton comme complété
+  button.classList.add('completed');
+  button.classList.remove('appear');
+  
+  // Afficher une notification
+  this.showNotification(`✓ ${checkpointName} completed!`);
+  
+  // Incrémenter le checkpoint actuel
+  this.currentCheckpoint++;
+  
+  // Si c'est le dernier checkpoint (Projects)
+  if (nextSection === 'end') {
+    this.finishSpeedrun();
+  } else {
+    // Déterminer la couleur pour le prochain segment
+    let nextColor;
+    if (this.currentCheckpoint === 1) {
+      nextColor = '#FFA500'; // Orange pour About
+    } else if (this.currentCheckpoint === 2) {
+      nextColor = '#FF4444'; // Rouge pour Projects
+    }
+    
+    // Changer la couleur du timer
+    this.displayElement.style.borderColor = nextColor;
+    this.displayElement.style.color = nextColor;
+    this.updateTimerAnimation(nextColor);
+    
+    // Afficher le prochain bouton checkpoint avec la bonne couleur
+    this.showCheckpointButton(this.currentCheckpoint, nextColor);
+  }
+}
+
+finishSpeedrun() {
+  // Arrêter le timer
+  this.pause();
+  this.isPausedManually = true; // Empêcher toute reprise si pausé manuellement
+  
+  // Animation de victoire
+  this.displayElement.style.borderColor = '#00FFD4';
+  this.displayElement.style.color = '#00FFD4';
+  this.displayElement.style.boxShadow = '0 0 25px rgba(0, 255, 212, 0.8), 0 0 50px rgba(0, 255, 212, 0.4)';
+  this.displayElement.style.animation = 'victory-pulse 1s ease-in-out infinite';
+  
+  // Notification finale (plus longue)
+  this.showFinalNotification();
+  
+  // Déconnecter tous les observers
+  this.observers.forEach(obs => obs.disconnect());
+}
+
+showFinalNotification() {
+  const notification = document.createElement('div');
+  notification.className = 'timer-notification timer-notification-final';
+  notification.textContent = '🎉 Portfolio completed! Thank you for visiting!';
+  
+  document.body.appendChild(notification);
+  
+  // Fade out après 8 secondes (au lieu de 4)
+  setTimeout(() => {
+    notification.classList.add('fade-out');
+  }, 8000);
+  
+  // Supprimer après 11 secondes (au lieu de 7)
+  setTimeout(() => {
+    notification.remove();
+  }, 11000);
+}
   
   // GESTION DU BOUTON
   updateButton(state) {
@@ -196,10 +345,11 @@ class SpeedrunTimer {
       // L'utilisateur a changé d'onglet
       if (this.isRunning) {
         this.pause();
+        this.isPausedManually = false; // Vérification que ce n'est pas une pause manuelle
       }
     } else {
-      // L'utilisateur est revenu sur l'onglet
-      if (this.isActive && !this.isRunning) {
+      // L'utilisateur est revenu sur l'onglet, le timer est actif et il n'y a pas de pause manuelle
+      if (this.isActive && !this.isRunning && !this.isPausedManually) {
         this.resume();
       }
     }
