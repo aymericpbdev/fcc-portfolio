@@ -159,6 +159,7 @@ body {
 .welcome-section {
     position: relative;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
@@ -306,10 +307,8 @@ body {
 }
 
 .checkpoint-button {
-    position: absolute;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
+    display: block;
+    margin: var(--spacing-xl) auto 0;
     padding: var(--spacing-sm) var(--spacing-lg);
     background-color: rgba(13, 13, 13, 0.8);  /* Fond noir plus opaque pour lisibilité */
     border: 2px solid #FFD700;
@@ -338,12 +337,12 @@ body {
 
 .checkpoint-button:hover {
     background-color: var(--color-primary-light);
-    transform: translateX(-50%) translateY(-3px);
+    transform: translateY(-3px);
     box-shadow: 0 6px 20px rgba(102, 204, 102, 0.5);
 }
 
 .checkpoint-button:active {
-    transform: translateX(-50%) translateY(-1px);
+    transform: translateY(-1px);
 }
 
 .checkpoint-button:focus-visible {
@@ -359,11 +358,11 @@ body {
 @keyframes checkpoint-appear {
     0% {
         opacity: 0;
-        transform: translateX(-50%) translateY(20px);
+        transform: translateY(20px);
     }
     100% {
         opacity: 1;
-        transform: translateX(-50%) translateY(0);
+        transform: translateY(0);
     }
 }
 
@@ -379,7 +378,7 @@ body {
 
 .checkpoint-button.completed:hover {
     background-color: var(--color-surface-dark);
-    transform: translateX(-50%) translateY(0);
+    transform: none;
     box-shadow: none;
 }
 
@@ -454,6 +453,7 @@ body {
 
 .about-section {
     position: relative;
+    flex-direction: column;
     padding: var(--spacing-xxl) var(--spacing-lg);
     background-color: var(--color-background);
     background-image: repeating-linear-gradient(90deg, transparent, transparent 50px, rgba(102, 204, 102, 0.02) 50px, rgba(102, 204, 102, 0.02) 51px);
@@ -568,6 +568,7 @@ body {
 
 .projects-section {
     position: relative;
+    flex-direction: column;
     min-height: 100vh;
     padding: var(--spacing-xxl) var(--spacing-lg);
     background-color: var(--color-background-deep);
