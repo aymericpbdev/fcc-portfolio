@@ -152,15 +152,13 @@ class SpeedrunTimer {
   }
 
   // GESTION DES CHECKPOINTS
-  showCheckpointButton(index, color = '#FFD700') {
+  showCheckpointButton(index, colorName = 'yellow') {
     if (index >= this.checkpointButtons.length) return;
     
     const button = this.checkpointButtons[index];
     
     // Appliquer la couleur au bouton
-    button.style.borderColor = color;
-    button.style.color = color;
-    this.updateCheckpointAnimation(button, color);
+    button.classList.add('checkpoint-' + colorName);
     
     // Afficher le bouton avec animation
     button.style.display = 'block';
@@ -173,27 +171,6 @@ class SpeedrunTimer {
     
     // Créer l'observer immédiatement
     this.createCheckpointObserver(button);
-  }
-  updateCheckpointAnimation(button, color) {
-    // Changer l'animation CSS du bouton en fonction de la couleur
-    if (color === '#FFD700') {
-      button.style.animation = 'checkpoint-pulse 2s ease-in-out infinite';
-    } else if (color === '#FFA500') {
-      button.style.animation = 'checkpoint-pulse-orange 2s ease-in-out infinite';
-    } else if (color === '#FF4444') {
-      button.style.animation = 'checkpoint-pulse-red 2s ease-in-out infinite';
-    }
-  }
-
-  updateTimerAnimation(color) {
-    // Changer l'animation CSS du timer en fonction de la couleur
-    if (color === '#FFD700') {
-      this.displayElement.style.animation = 'timer-pulse 2s ease-in-out infinite';
-    } else if (color === '#FFA500') {
-      this.displayElement.style.animation = 'timer-pulse-orange 2s ease-in-out infinite';
-    } else if (color === '#FF4444') {
-      this.displayElement.style.animation = 'timer-pulse-red 2s ease-in-out infinite';
-    }
   }
 
   handleCheckpointClick(button) {
@@ -270,20 +247,19 @@ validateCheckpoint(button, checkpointName, nextSection) {
     this.finishSpeedrun();
   } else {
     // Déterminer la couleur pour le prochain segment
-    let nextColor;
+    let nextColorName;
     if (this.currentCheckpoint === 1) {
-      nextColor = '#FFA500'; // Orange pour About Me
+      nextColorName = 'orange'; // Orange pour About Me
     } else if (this.currentCheckpoint === 2) {
-      nextColor = '#FF4444'; // Rouge pour Projects
+      nextColorName = 'red'; // Rouge pour Projects
     }
     
     // Changer la couleur du timer
-    this.displayElement.style.borderColor = nextColor;
-    this.displayElement.style.color = nextColor;
-    this.updateTimerAnimation(nextColor);
+    this.displayElement.classList.remove('timer-yellow', 'timer-orange', 'timer-red');
+    this.displayElement.classList.add('timer-' + nextColorName);
     
     // Afficher le prochain bouton checkpoint avec la bonne couleur
-    this.showCheckpointButton(this.currentCheckpoint, nextColor);
+    this.showCheckpointButton(this.currentCheckpoint, nextColorName);
   }
 }
 

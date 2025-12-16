@@ -11,6 +11,10 @@
     --color-mist: #e1e8ed;
     --color-snow: #f8f9fa;
     --color-snow-bright: #f0f0f0;
+    /* Checkpoint Colors */
+    --color-checkpoint-yellow: #FFD700;
+    --color-checkpoint-orange: #FFA500;
+    --color-checkpoint-red: #FF4444;
     /* Semantic Color Assignments */
     --color-primary: var(--color-speedrun-green);
     --color-primary-light: var(--color-speedrun-green-light);
@@ -175,11 +179,12 @@ body {
 .timer-display {
     padding: var(--spacing-xs) var(--spacing-sm);
     background-color: rgba(13, 13, 13, 0.6);
-    border: 2px solid var(--color-primary);
+    border: 2px solid;
     border-radius: var(--radius-sm);
     font-family: var(--font-mono);
     font-size: 0.9rem;
     letter-spacing: 0.1em;
+    border-color: var(--color-primary);
     color: var(--color-primary);
     animation: timer-pulse 2s ease-in-out infinite;
 }
@@ -193,6 +198,24 @@ body {
         opacity: 0.85;
         box-shadow: 0 0 15px rgba(102, 204, 102, 0.5);
     }
+}
+
+.timer-yellow {
+    border-color: var(--color-checkpoint-yellow);
+    color: var(--color-checkpoint-yellow);
+    animation: timer-pulse 1.5s ease-in-out infinite;
+}
+
+.timer-orange {
+    border-color: var(--color-checkpoint-orange);
+    color: var(--color-checkpoint-orange);
+    animation: timer-pulse-orange 1s ease-in-out infinite;
+}
+
+.timer-red {
+    border-color: var(--color-checkpoint-red);
+    color: var(--color-checkpoint-red);
+    animation: timer-pulse-red 0.5s ease-in-out infinite;
 }
 
 .timer-button {
@@ -311,13 +334,12 @@ body {
     margin: var(--spacing-xl) auto 0;
     padding: var(--spacing-sm) var(--spacing-lg);
     background-color: rgba(13, 13, 13, 0.8);  /* Fond noir plus opaque pour lisibilité */
-    border: 2px solid #FFD700;
+    border: 2px solid;
     border-radius: var(--radius-md);
     font-family: var(--font-mono);
     font-size: 1rem;
     font-weight: 600;
     letter-spacing: 0.05em;
-    color: #FFD700;
     cursor: pointer;
     z-index: 50;
     transition: all 0.3s ease;
@@ -335,8 +357,43 @@ body {
     }
 }
 
+.checkpoint-yellow {
+    color: var(--color-checkpoint-yellow);
+    border-color: var(--color-checkpoint-yellow);
+    animation: checkpoint-pulse-orange 2s ease-in-out infinite;
+}
+
+.checkpoint-yellow:hover {
+    background-color: var(--color-checkpoint-yellow);
+    color: var(--color-background-deep);
+    animation: none;
+}
+
+.checkpoint-orange {
+    color: var(--color-checkpoint-orange);
+    border-color: var(--color-checkpoint-orange);
+    animation: checkpoint-pulse-red 2s ease-in-out infinite;
+}
+
+.checkpoint-orange:hover {
+    background-color: var(--color-checkpoint-orange);
+    color: var(--color-background-deep);
+    animation: none;
+}
+
+.checkpoint-red {
+    color: var(--color-checkpoint-red);
+    border-color: var(--color-checkpoint-red);
+    animation: checkpoint-pulse 2s ease-in-out infinite;
+}
+
+.checkpoint-red:hover {
+    background-color: var(--color-checkpoint-red);
+    color: var(--color-background-deep);
+    animation: none;
+}
+
 .checkpoint-button:hover {
-    background-color: var(--color-primary-light);
     transform: translateY(-3px);
     box-shadow: 0 6px 20px rgba(102, 204, 102, 0.5);
 }
