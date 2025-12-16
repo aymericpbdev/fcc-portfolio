@@ -203,8 +203,6 @@ class SpeedrunTimer {
   const checkpointName = button.dataset.checkpoint;
   const nextSection = button.dataset.nextSection;
   
-  // console.log(`Checkpoint validé manuellement : ${checkpointName}`);
-  
   // Valider le checkpoint
   this.validateCheckpoint(button, checkpointName, nextSection);
 }
@@ -220,12 +218,10 @@ createCheckpointObserver(button) {
       
       // Le bouton est visible
       if (entry.isIntersecting) {
-        // console.log('Bouton visible, démarrage du timer');
         
         // Démarrer un timer de 2 secondes (ajustable)
         visibilityTimer = setTimeout(() => {
           canAutoValidate = true;
-          // console.log('Bouton visible depuis 2s, validation auto activée');
         }, 2000);  // 2 secondes de visibilité requises
         
       } 
@@ -234,15 +230,12 @@ createCheckpointObserver(button) {
         // Annuler le timer si le bouton disparaît trop vite
         if (visibilityTimer) {
           clearTimeout(visibilityTimer);
-          // console.log('Bouton disparu trop vite, timer annulé');
         }
         
         // Valider si validation auto activée et bouton sorti par le haut
         if (canAutoValidate && entry.boundingClientRect.top < 0) {
           const checkpointName = button.dataset.checkpoint;
           const nextSection = button.dataset.nextSection;
-          
-          // console.log(`Checkpoint validé automatiquement : ${checkpointName}`);
           
           // Valider le checkpoint
           this.validateCheckpoint(button, checkpointName, nextSection);
@@ -279,7 +272,7 @@ validateCheckpoint(button, checkpointName, nextSection) {
     // Déterminer la couleur pour le prochain segment
     let nextColor;
     if (this.currentCheckpoint === 1) {
-      nextColor = '#FFA500'; // Orange pour About
+      nextColor = '#FFA500'; // Orange pour About Me
     } else if (this.currentCheckpoint === 2) {
       nextColor = '#FF4444'; // Rouge pour Projects
     }
@@ -297,7 +290,7 @@ validateCheckpoint(button, checkpointName, nextSection) {
 finishSpeedrun() {
   // Arrêter le timer
   this.pause();
-  this.isPausedManually = true; // Empêcher toute reprise si pausé manuellement
+  this.isPausedManually = true; // Empêcher toute reprise si pause manuel
   
   // Animation de victoire
   this.displayElement.style.borderColor = '#00FFD4';
