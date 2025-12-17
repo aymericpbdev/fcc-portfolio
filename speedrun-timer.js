@@ -266,12 +266,15 @@ finishSpeedrun() {
   // Arrêter le timer
   this.pause();
   this.isPausedManually = true; // Empêcher toute reprise si pause manuel
+
+  // Modification de la visibilité du bouton resume/pause
+  this.buttonElement.style.visibility = 'hidden';
   
   // Animation de victoire
   this.displayElement.style.borderColor = '#00FFD4';
   this.displayElement.style.color = '#00FFD4';
   this.displayElement.style.boxShadow = '0 0 25px rgba(0, 255, 212, 0.8), 0 0 50px rgba(0, 255, 212, 0.4)';
-  this.displayElement.style.animation = 'victory-pulse 1s ease-in-out infinite';
+  this.displayElement.style.animation = 'victory-pulse 2s ease-in-out infinite';
   
   // Notification finale (plus longue)
   this.showFinalNotification();
