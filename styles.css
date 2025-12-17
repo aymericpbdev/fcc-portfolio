@@ -12,9 +12,9 @@
     --color-snow: #f8f9fa;
     --color-snow-bright: #f0f0f0;
     /* Checkpoint Colors */
-    --color-checkpoint-yellow: #FFD700;
-    --color-checkpoint-orange: #FFA500;
-    --color-checkpoint-red: #FF4444;
+    --color-checkpoint-yellow: #fffb00;
+    --color-checkpoint-orange: #ffa600;
+    --color-checkpoint-red: #ff3838;
     /* Semantic Color Assignments */
     --color-primary: var(--color-speedrun-green);
     --color-primary-light: var(--color-speedrun-green-light);
@@ -360,7 +360,7 @@ body {
 .checkpoint-yellow {
     color: var(--color-checkpoint-yellow);
     border-color: var(--color-checkpoint-yellow);
-    animation: checkpoint-pulse-orange 2s ease-in-out infinite;
+    animation: checkpoint-pulse 2s ease-in-out infinite;
 }
 
 .checkpoint-yellow:hover {
@@ -372,7 +372,7 @@ body {
 .checkpoint-orange {
     color: var(--color-checkpoint-orange);
     border-color: var(--color-checkpoint-orange);
-    animation: checkpoint-pulse-red 2s ease-in-out infinite;
+    animation: checkpoint-pulse-orange 2s ease-in-out infinite;
 }
 
 .checkpoint-orange:hover {
@@ -384,7 +384,7 @@ body {
 .checkpoint-red {
     color: var(--color-checkpoint-red);
     border-color: var(--color-checkpoint-red);
-    animation: checkpoint-pulse 2s ease-in-out infinite;
+    animation: checkpoint-pulse-red 2s ease-in-out infinite;
 }
 
 .checkpoint-red:hover {

@@ -53,8 +53,7 @@ class SpeedrunTimer {
     this.startTime = performance.now() - this.elapsedTime;
 
     // Appliquer la couleur du premier segment dès le début
-    this.displayElement.style.borderColor = '#FFD700';  // Jaune
-    this.displayElement.style.color = '#FFD700';
+    this.displayElement.classList.add('timer-yellow')
     
     // Lance la mise à jour toutes les 10ms (centièmes de seconde)
     this.intervalId = setInterval(() => {
