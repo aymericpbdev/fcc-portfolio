@@ -125,7 +125,7 @@ class SpeedrunTimer {
     // Créer l'élément notification
     const notification = document.createElement('div');
     notification.className = 'timer-notification';
-    notification.textContent = `✓ ${message}`;
+    notification.textContent = `${message}`;
     
     // Ajouter au body
     document.body.appendChild(notification);
